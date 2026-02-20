@@ -12,4 +12,3 @@ declare global {
     }
   }
 }
-3.2. Prisma & Base de données
