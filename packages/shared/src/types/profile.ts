@@ -1,61 +1,17 @@
 // packages/shared/src/types/profile.ts
-
-import {
-  ProfessionalStatus,
-  FamilyStatus,
-  HousingType,
-  HousingStatus,
-} from '../constants/enums';
-
-/**
- * Données du profil d'éligibilité (réponses au questionnaire)
- * Utilisé pour la création/mise à jour et pour l'évaluation anonyme
- */
-export interface ProfileData {
-  // Informations personnelles
-  age: number;
-  professionalStatus: ProfessionalStatus;
-  familyStatus: FamilyStatus;
-  childrenCount: number;
-
-  // Informations financières
-  annualIncome: number;
-
-  // Informations géographiques
-  postalCode: string;
-  department: string;
-  region: string;
-
-  // Informations logement
-  housingType: HousingType;
-  housingStatus: HousingStatus;
-  housingConstructionYear?: number | null;
-
-  // Projets
-  hasRenovationProject: boolean;
-  hasBusinessProject: boolean;
-  isStudent: boolean;
-}
-
-/**
- * Profil d'éligibilité complet (stocké en base)
- */
-export interface UserProfile extends ProfileData {
+export type CreateUpdateProfileDto = any;
+export type ProfileResponse = any;
+export enum ProfessionalStatus { STUDENT = 'STUDENT', WORKING = 'WORKING' }
+export enum FamilyStatus { SINGLE = 'SINGLE', MARRIED = 'MARRIED' }
+export enum HousingType { HOUSE = 'HOUSE', APARTMENT = 'APARTMENT' }
+export enum HousingStatus { OWN = 'OWN', RENT = 'RENT' }
+export type ProfileData = {
   id: string;
-  userId: string | null;
-  rawData?: Record<string, unknown> | null;
-  createdAt: string;
-  updatedAt: string;
-}
-
-/**
- * DTO pour créer/mettre à jour un profil
- */
-export interface CreateUpdateProfileDto extends ProfileData {}
-
-/**
- * Réponse de l'API profil
- */
-export interface ProfileResponse {
-  profile: UserProfile;
-}
+  firstName: string;
+  lastName: string;
+  email?: string;
+  professionalStatus?: string;
+  familyStatus?: string;
+  housingType?: string;
+  housingStatus?: string;
+};
