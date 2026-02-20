@@ -142,11 +142,11 @@ export class AuthService {
    */
   private generateToken(user: User): { accessToken: string; expiresIn: number } {
     // Payload du token (conforme à JwtPayload de @aidesmax/shared)
-    const payload: Omit<JwtPayload, 'iat' | 'exp'> = {
-      sub: user.id,
-      email: user.email,
-      role: user.role,
-    };
+   const payload: JwtPayload = {
+  sub: user.id,
+  email: user.email,
+  role: user.role as UserRole,
+};
 
     // Récupérer la durée d'expiration depuis la config
     const expiresInConfig = this.configService.get<string>('jwt.expiresIn', '900s');
