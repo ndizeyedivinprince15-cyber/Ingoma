@@ -1,0 +1,147 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// -----------------------------------------------------------------------------
+// Modèles (Adaptés pour SQLite : pas d'enums natifs, pas de @db.VarChar)
+// -----------------------------------------------------------------------------
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  passwordHash  String    @map("password_hash")
+  role          String    @default("USER") // "USER" ou "ADMIN"
+  isActive      Boolean   @default(true) @map("is_active")
+  emailVerified Boolean   @default(false) @map("email_verified")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+  lastLoginAt   DateTime? @map("last_login_at")
+
+  profile  UserProfile?
+  dossiers Dossier[]
+
+  @@index([email])
+  @@index([role])
+  @@map("users")
+}
+
+model UserProfile {
+  id                     String   @id @default(cuid())
+  userId                 String?  @unique @map("user_id")
+  user                   User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  age                    Int
+  professionalStatus     String   @map("professional_status")
+  familyStatus           String   @map("family_status")
+  childrenCount          Int      @default(0) @map("children_count")
+  annualIncome           Int      @map("annual_income")
+  
+  postalCode             String   @map("postal_code")
+  department             String
+  region                 String
+  
+  housingType            String   @map("housing_type")
+  housingStatus          String   @map("housing_status")
+  housingConstructionYear Int?    @map("housing_construction_year")
+  
+  hasRenovationProject   Boolean  @default(false) @map("has_renovation_project")
+  hasBusinessProject     Boolean  @default(false) @map("has_business_project")
+  isStudent              Boolean  @default(false) @map("is_student")
+  
+  rawData                String?  @map("raw_data") // Stocké en JSON stringifié
+  createdAt              DateTime @default(now()) @map("created_at")
+  updatedAt              DateTime @updatedAt @map("updated_at")
+
+  eligibilityResults EligibilityResult[]
+
+  @@index([userId])
+  @@index([region])
+  @@index([department])
+  @@map("user_profiles")
+}
+
+model Aid {
+  id                String   @id @default(cuid())
+  name              String
+  slug              String   @unique
+  category          String   
+  shortDescription  String   @map("short_description")
+  longDescription   String?  @map("long_description")
+  authority         String
+  geographicScope   String   @map("geographic_scope")
+  
+  // Champs JSON stockés en String pour SQLite (compatibilité maximale)
+  geographicZones   String   @map("geographic_zones") 
+  eligibilityRules  String   @map("eligibility_rules")
+  estimationRules   String?  @map("estimation_rules")
+  officialLink      String?  @map("official_link")
+  requiredDocuments String   @map("required_documents")
+  
+  isActive          Boolean  @default(true) @map("is_active")
+  displayOrder      Int      @default(0) @map("display_order")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  eligibilityResults EligibilityResult[]
+  dossiers           Dossier[]
+
+  @@index([category])
+  @@index([isActive])
+  @@index([geographicScope])
+  @@index([slug])
+  @@map("aids")
+}
+
+model EligibilityResult {
+  id                 String      @id @default(cuid())
+  userProfileId      String      @map("user_profile_id")
+  userProfile        UserProfile @relation(fields: [userProfileId], references: [id], onDelete: Cascade)
+  aidId              String      @map("aid_id")
+  aid                Aid         @relation(fields: [aidId], references: [id], onDelete: Cascade)
+  
+  isEligible         Boolean     @map("is_eligible")
+  probabilityScore   Float       @map("probability_score")
+  estimatedAmountMin Int?        @map("estimated_amount_min")
+  estimatedAmountMax Int?        @map("estimated_amount_max")
+  
+  criteriaResults    String      @map("criteria_results") // JSON string
+  explanation        String?
+  
+  evaluatedAt        DateTime    @default(now()) @map("evaluated_at")
+
+  @@unique([userProfileId, aidId])
+  @@index([userProfileId])
+  @@index([aidId])
+  @@index([isEligible])
+  @@map("eligibility_results")
+}
+
+model Dossier {
+  id                String    @id @default(cuid())
+  userId            String    @map("user_id")
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  aidId             String    @map("aid_id")
+  aid               Aid       @relation(fields: [aidId], references: [id], onDelete: Restrict)
+  
+  status            String    @default("BROUILLON")
+  formData          String    @map("form_data") // JSON string
+  generatedContent  String?   @map("generated_content")
+  userNotes         String?   @map("user_notes")
+  
+  submittedAt       DateTime? @map("submitted_at")
+  externalReference String?   @map("external_reference")
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([aidId])
+  @@index([status])
+  @@map("dossiers")
+}

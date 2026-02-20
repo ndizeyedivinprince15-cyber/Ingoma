@@ -1,0 +1,49 @@
+// packages/shared/src/types/api.ts
+
+/**
+ * Réponse API standard pour les erreurs
+ */
+export interface ApiError {
+  statusCode: number;
+  message: string;
+  error?: string;
+  details?: Record<string, string[]>;
+  timestamp?: string;
+  path?: string;
+}
+
+/**
+ * Métadonnées de pagination standard
+ */
+export interface PaginationMeta {
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+}
+
+/**
+ * Réponse paginée générique
+ */
+export interface PaginatedResponse<T> {
+  data: T[];
+  meta: PaginationMeta;
+}
+
+/**
+ * Paramètres de pagination standard
+ */
+export interface PaginationParams {
+  page?: number;
+  limit?: number;
+}
+
+/**
+ * Réponse de succès simple
+ */
+export interface SuccessResponse {
+  success: boolean;
+  message: string;
+}

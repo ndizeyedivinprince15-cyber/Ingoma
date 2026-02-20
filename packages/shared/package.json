@@ -1,0 +1,20 @@
+{
+  "name": "@aidesmax/shared",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Types et constantes partagés entre le frontend et le backend AidesMax",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "pnpm run build"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}

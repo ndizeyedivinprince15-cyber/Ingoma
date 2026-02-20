@@ -1,0 +1,129 @@
+// packages/shared/src/types/dossier.ts
+
+import { DossierStatus, AidCategory } from '../constants/enums';
+import { AidSummary } from './aid';
+import { PaginationMeta } from './api';
+
+// ... (DossierFormData, DossierSummary, Dossier, CreateDossierDto, UpdateDossierDto inchangés)
+
+/**
+ * Réponse liste des dossiers (avec PaginationMeta)
+ */
+export interface DossiersListResponse {
+  dossiers: DossierSummary[];
+  meta: PaginationMeta;
+}
+3.1. Configuration du projet
+Structure complète du monorepo
+text
+
+aidesmax/
+├── apps/
+│   ├── api/                              # Backend NestJS
+│   │   ├── src/
+│   │   │   ├── main.ts
+│   │   │   ├── app.module.ts
+│   │   │   ├── common/
+│   │   │   │   ├── decorators/
+│   │   │   │   │   ├── current-user.decorator.ts
+│   │   │   │   │   └── roles.decorator.ts
+│   │   │   │   ├── filters/
+│   │   │   │   │   └── http-exception.filter.ts
+│   │   │   │   ├── guards/
+│   │   │   │   │   ├── jwt-auth.guard.ts
+│   │   │   │   │   └── roles.guard.ts
+│   │   │   │   └── interceptors/
+│   │   │   │       └── transform.interceptor.ts
+│   │   │   ├── config/
+│   │   │   │   └── configuration.ts
+│   │   │   ├── modules/
+│   │   │   │   ├── auth/
+│   │   │   │   │   ├── auth.module.ts
+│   │   │   │   │   ├── auth.controller.ts
+│   │   │   │   │   ├── auth.service.ts
+│   │   │   │   │   ├── dto/
+│   │   │   │   │   │   ├── register.dto.ts
+│   │   │   │   │   │   └── login.dto.ts
+│   │   │   │   │   └── strategies/
+│   │   │   │   │       └── jwt.strategy.ts
+│   │   │   │   ├── users/
+│   │   │   │   │   ├── users.module.ts
+│   │   │   │   │   └── users.service.ts
+│   │   │   │   ├── profile/
+│   │   │   │   │   ├── profile.module.ts
+│   │   │   │   │   ├── profile.controller.ts
+│   │   │   │   │   ├── profile.service.ts
+│   │   │   │   │   └── dto/
+│   │   │   │   │       └── create-update-profile.dto.ts
+│   │   │   │   ├── aids/
+│   │   │   │   │   ├── aids.module.ts
+│   │   │   │   │   ├── aids.controller.ts
+│   │   │   │   │   ├── aids.service.ts
+│   │   │   │   │   └── dto/
+│   │   │   │   │       ├── create-aid.dto.ts
+│   │   │   │   │       ├── update-aid.dto.ts
+│   │   │   │   │       └── aid-filters.dto.ts
+│   │   │   │   ├── eligibility/
+│   │   │   │   │   ├── eligibility.module.ts
+│   │   │   │   │   ├── eligibility.controller.ts
+│   │   │   │   │   ├── eligibility.service.ts
+│   │   │   │   │   ├── eligibility-engine.service.ts
+│   │   │   │   │   └── dto/
+│   │   │   │   │       └── evaluate-eligibility.dto.ts
+│   │   │   │   ├── dossiers/
+│   │   │   │   │   ├── dossiers.module.ts
+│   │   │   │   │   ├── dossiers.controller.ts
+│   │   │   │   │   ├── dossiers.service.ts
+│   │   │   │   │   ├── document-generator.service.ts
+│   │   │   │   │   └── dto/
+│   │   │   │   │       ├── create-dossier.dto.ts
+│   │   │   │   │       └── update-dossier.dto.ts
+│   │   │   │   ├── admin/
+│   │   │   │   │   ├── admin.module.ts
+│   │   │   │   │   ├── admin.controller.ts
+│   │   │   │   │   └── admin.service.ts
+│   │   │   │   └── prisma/
+│   │   │   │       ├── prisma.module.ts
+│   │   │   │       └── prisma.service.ts
+│   │   │   └── types/
+│   │   │       └── express.d.ts
+│   │   ├── test/
+│   │   │   └── app.e2e-spec.ts
+│   │   ├── .env.example
+│   │   ├── nest-cli.json
+│   │   ├── package.json
+│   │   └── tsconfig.json
+│   │
+│   └── web/                              # (Étape 4)
+│       └── ...
+│
+├── packages/
+│   └── shared/
+│       ├── src/
+│       │   ├── index.ts
+│       │   ├── types/
+│       │   │   ├── index.ts
+│       │   │   ├── api.ts
+│       │   │   ├── user.ts
+│       │   │   ├── profile.ts
+│       │   │   ├── aid.ts
+│       │   │   ├── eligibility.ts
+│       │   │   └── dossier.ts
+│       │   └── constants/
+│       │       ├── index.ts
+│       │       ├── enums.ts
+│       │       └── regions.ts
+│       ├── package.json
+│       └── tsconfig.json
+│
+├── prisma/
+│   ├── schema.prisma
+│   └── seed.ts
+│
+├── .env.example
+├── .gitignore
+├── docker-compose.yml
+├── package.json
+├── pnpm-workspace.yaml
+├── tsconfig.base.json
+└── README.md

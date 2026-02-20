@@ -1,0 +1,49 @@
+// packages/shared/src/types/eligibility.ts
+// ... (début du fichier inchangé)
+
+import { AidCategory } from '../constants/enums';
+import { ProfileData } from './profile';
+import { AidSummary } from './aid';
+
+// ... (types EligibilityCondition, EligibilityRuleGroup, etc. inchangés)
+
+// ============================================================================
+// DTO POUR L'API
+// ============================================================================
+
+/**
+ * Requête d'évaluation d'éligibilité
+ * Deux modes : anonyme (profileData) ou connecté (profileId ou implicite)
+ */
+export interface EvaluateEligibilityDto {
+  /** 
+   * Données du profil pour évaluation directe (mode anonyme ou recalcul)
+   * Si fourni, prend la priorité sur profileId
+   */
+  profileData?: ProfileData;
+  
+  /**
+   * ID d'un profil existant en base (mode connecté)
+   * Ignoré si profileData est fourni
+   */
+  profileId?: string;
+  
+  /**
+   * Filtrer par catégorie d'aide (optionnel)
+   * Typé avec AidCategory pour cohérence
+   */
+  category?: AidCategory;
+  
+  /**
+   * Filtrer par IDs d'aides spécifiques (optionnel)
+   */
+  aidIds?: string[];
+  
+  /**
+   * Si true et utilisateur connecté avec profil, persiste les résultats
+   * Défaut: true pour les utilisateurs connectés
+   */
+  persistResults?: boolean;
+}
+
+// ... (reste du fichier inchangé)

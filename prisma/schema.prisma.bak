@@ -1,0 +1,234 @@
+// prisma/schema.prisma
+
+// ============================================================================
+// CONFIGURATION PRISMA
+// ============================================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================================
+// ÉNUMÉRATIONS
+// ============================================================================
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum ProfessionalStatus {
+  ETUDIANT
+  SALARIE
+  INDEPENDANT
+  CHOMEUR
+  RETRAITE
+  INACTIF
+}
+
+enum FamilyStatus {
+  CELIBATAIRE
+  EN_COUPLE
+  VEUF
+  DIVORCE
+}
+
+enum HousingType {
+  APPARTEMENT
+  MAISON
+  AUTRE
+}
+
+enum HousingStatus {
+  LOCATAIRE
+  PROPRIETAIRE
+  HEBERGE_GRATUIT
+  SANS_DOMICILE
+}
+
+enum AidCategory {
+  LOGEMENT
+  ENERGIE
+  ETUDES
+  BUSINESS
+  SANTE
+  TRANSPORT
+  FAMILLE
+}
+
+enum GeographicScope {
+  NATIONAL
+  REGIONAL
+  DEPARTEMENTAL
+  COMMUNAL
+}
+
+enum DossierStatus {
+  BROUILLON
+  PRET
+  SOUMIS
+  EN_COURS
+  ACCEPTE
+  REFUSE
+  ANNULE
+}
+
+// ============================================================================
+// MODÈLE UTILISATEUR
+// ============================================================================
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  passwordHash  String    @map("password_hash")
+  role          UserRole  @default(USER)
+  isActive      Boolean   @default(true) @map("is_active")
+  emailVerified Boolean   @default(false) @map("email_verified")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+  lastLoginAt   DateTime? @map("last_login_at")
+
+  // Relations
+  profile  UserProfile?
+  dossiers Dossier[]
+
+  @@index([email])
+  @@index([role])
+  @@map("users")
+}
+
+// ============================================================================
+// MODÈLE PROFIL D'ÉLIGIBILITÉ
+// ============================================================================
+
+model UserProfile {
+  id                     String             @id @default(cuid())
+  userId                 String?            @unique @map("user_id")
+  user                   User?              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Informations personnelles
+  age                    Int
+  professionalStatus     ProfessionalStatus @map("professional_status")
+  familyStatus           FamilyStatus       @map("family_status")
+  childrenCount          Int                @default(0) @map("children_count")
+  
+  // Informations financières
+  annualIncome           Int                @map("annual_income")
+  
+  // Informations géographiques
+  postalCode             String             @map("postal_code")
+  department             String
+  region                 String
+  
+  // Informations logement
+  housingType            HousingType        @map("housing_type")
+  housingStatus          HousingStatus      @map("housing_status")
+  housingConstructionYear Int?              @map("housing_construction_year")
+  
+  // Projets
+  hasRenovationProject   Boolean            @default(false) @map("has_renovation_project")
+  hasBusinessProject     Boolean            @default(false) @map("has_business_project")
+  isStudent              Boolean            @default(false) @map("is_student")
+  
+  // Métadonnées
+  rawData                Json?              @map("raw_data")
+  createdAt              DateTime           @default(now()) @map("created_at")
+  updatedAt              DateTime           @updatedAt @map("updated_at")
+
+  // Relations
+  eligibilityResults EligibilityResult[]
+
+  @@index([userId])
+  @@index([region])
+  @@index([department])
+  @@map("user_profiles")
+}
+
+// ============================================================================
+// MODÈLE AIDE
+// ============================================================================
+
+model Aid {
+  id                String          @id @default(cuid())
+  name              String
+  slug              String          @unique
+  category          AidCategory
+  shortDescription  String          @map("short_description") @db.VarChar(500)
+  longDescription   String?         @map("long_description") @db.Text
+  authority         String
+  geographicScope   GeographicScope @map("geographic_scope")
+  geographicZones   String[]        @map("geographic_zones")
+  eligibilityRules  Json            @map("eligibility_rules")
+  estimationRules   Json?           @map("estimation_rules")
+  officialLink      String?         @map("official_link")
+  requiredDocuments String[]        @map("required_documents")
+  isActive          Boolean         @default(true) @map("is_active")
+  displayOrder      Int             @default(0) @map("display_order")
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
+
+  // Relations
+  eligibilityResults EligibilityResult[]
+  dossiers           Dossier[]
+
+  @@index([category])
+  @@index([isActive])
+  @@index([geographicScope])
+  @@index([slug])
+  @@map("aids")
+}
+
+// ============================================================================
+// MODÈLE RÉSULTAT D'ÉLIGIBILITÉ
+// ============================================================================
+
+model EligibilityResult {
+  id                 String      @id @default(cuid())
+  userProfileId      String      @map("user_profile_id")
+  userProfile        UserProfile @relation(fields: [userProfileId], references: [id], onDelete: Cascade)
+  aidId              String      @map("aid_id")
+  aid                Aid         @relation(fields: [aidId], references: [id], onDelete: Cascade)
+  isEligible         Boolean     @map("is_eligible")
+  probabilityScore   Float       @map("probability_score")
+  estimatedAmountMin Int?        @map("estimated_amount_min")
+  estimatedAmountMax Int?        @map("estimated_amount_max")
+  criteriaResults    Json        @map("criteria_results")
+  explanation        String?     @db.Text
+  evaluatedAt        DateTime    @default(now()) @map("evaluated_at")
+
+  @@unique([userProfileId, aidId])
+  @@index([userProfileId])
+  @@index([aidId])
+  @@index([isEligible])
+  @@map("eligibility_results")
+}
+
+// ============================================================================
+// MODÈLE DOSSIER
+// ============================================================================
+
+model Dossier {
+  id                String        @id @default(cuid())
+  userId            String        @map("user_id")
+  user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  aidId             String        @map("aid_id")
+  aid               Aid           @relation(fields: [aidId], references: [id], onDelete: Restrict)
+  status            DossierStatus @default(BROUILLON)
+  formData          Json          @map("form_data")
+  generatedContent  String?       @map("generated_content") @db.Text
+  userNotes         String?       @map("user_notes") @db.Text
+  submittedAt       DateTime?     @map("submitted_at")
+  externalReference String?       @map("external_reference")
+  createdAt         DateTime      @default(now()) @map("created_at")
+  updatedAt         DateTime      @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([aidId])
+  @@index([status])
+  @@map("dossiers")
+}

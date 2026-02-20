@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  background: #050505;
+  color: #F9F1D8;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}

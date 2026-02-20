@@ -1,0 +1,17 @@
+// packages/shared/src/types/aid.ts
+
+import { AidCategory, GeographicScope } from '../constants/enums';
+import { EligibilityRules, EstimationRules } from './eligibility';
+import { PaginationMeta } from './api';
+
+// ... (AidSummary, Aid, CreateAidDto, UpdateAidDto inchangés)
+
+/**
+ * Réponse liste des aides (avec PaginationMeta)
+ */
+export interface AidsListResponse {
+  aids: AidSummary[];
+  meta: PaginationMeta;
+}
+
+// ... (reste inchangé)

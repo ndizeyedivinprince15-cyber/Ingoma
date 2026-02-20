@@ -1,0 +1,53 @@
+{
+  "name": "aidesmax",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Plateforme d'aide à la découverte et à la demande d'aides et subventions",
+  "keywords": [
+    "aides",
+    "subventions",
+    "france",
+    "eligibilite"
+  ],
+  "license": "UNLICENSED",
+  "scripts": {
+    "dev": "pnpm run dev:api",
+    "dev:api": "pnpm --filter @aidesmax/api run start:dev",
+    "dev:web": "pnpm --filter @aidesmax/web run dev",
+    "build": "pnpm run build:shared && pnpm run build:api",
+    "build:shared": "pnpm --filter @aidesmax/shared run build",
+    "build:api": "pnpm --filter @aidesmax/api run build",
+    "build:web": "pnpm --filter @aidesmax/web run build",
+    "test": "pnpm --filter @aidesmax/api run test",
+    "test:e2e": "pnpm --filter @aidesmax/api run test:e2e",
+    "lint": "pnpm -r run lint",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:migrate:prod": "prisma migrate deploy",
+    "db:seed": "prisma db seed",
+    "db:studio": "prisma studio",
+    "db:reset": "prisma migrate reset",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "prepare": "pnpm run build:shared"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/node": "^20.19.27",
+    "prisma": "^5.8.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.8.0",
+    "bcrypt": "^5.1.1"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@8.14.0",
+  "prisma": {
+    "seed": "ts-node --transpile-only prisma/seed.ts"
+  }
+}
