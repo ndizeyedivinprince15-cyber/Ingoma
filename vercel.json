@@ -2,8 +2,9 @@
   "version": 2,
   "buildCommand": "cd apps/api && npx -p @nestjs/cli nest build",
   "outputDirectory": "apps/api/dist",
+  "framework": "nestjs",
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "src/main.js" },
-    { "source": "/(.*)", "destination": "src/main.js" }
+    { "source": "/api/(.*)", "destination": "/api/main.js" },
+    { "source": "/(.*)", "destination": "/api/main.js" }
   ]
 }
