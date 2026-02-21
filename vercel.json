@@ -1,7 +1,7 @@
 {
   "version": 2,
   "installCommand": "pnpm install --no-frozen-lockfile --ignore-scripts",
-  "buildCommand": "pnpm run build --filter api && npx prisma generate",
+  "buildCommand": "pnpm run build --filter api",
   "outputDirectory": "apps/api/dist",
   "framework": "nestjs"
 }
