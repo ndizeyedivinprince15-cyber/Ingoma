@@ -1,7 +1,0 @@
-{
-  "version": 2,
-  "installCommand": "pnpm install --no-frozen-lockfile --ignore-scripts",
-  "buildCommand": "pnpm run build && npx prisma generate",
-  "outputDirectory": "dist",
-  "framework": "nestjs"
-}
