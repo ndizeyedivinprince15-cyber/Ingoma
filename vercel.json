@@ -1,7 +1,7 @@
 {
   "version": 2,
   "installCommand": "pnpm install",
-  "buildCommand": "npx -p @nestjs/cli nest build api",
+  "buildCommand": "cd apps/api && npx -p @nestjs/cli nest build",
   "outputDirectory": "apps/api/dist",
   "framework": "nestjs"
 }
