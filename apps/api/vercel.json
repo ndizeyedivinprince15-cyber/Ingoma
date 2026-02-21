@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "installCommand": "pnpm install",
+  "buildCommand": "pnpm run build --filter api",
+  "outputDirectory": "apps/api/dist",
+  "framework": "nestjs"
+}
