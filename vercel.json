@@ -1,7 +1,7 @@
 {
   "version": 2,
   "installCommand": "pnpm install",
-  "buildCommand": "./node_modules/.bin/nest build api",
+  "buildCommand": "pnpm exec nest build api",
   "outputDirectory": "apps/api/dist",
   "framework": "nestjs"
 }
