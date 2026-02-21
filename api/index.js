@@ -1,1 +1,1 @@
-module.exports = require("./apps/api/dist/main");
+const app = require("./apps/api/dist/main"); module.exports = app;
