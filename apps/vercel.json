@@ -1,6 +1,13 @@
 {
+  "version": 2,
+  "public": true,
   "buildCommand": "pnpm run build",
-  "outputDirectory": "apps/web/.next",
   "installCommand": "pnpm install --no-frozen-lockfile",
-  "framework": "nextjs"
+  "framework": "nextjs",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/apps/web/$1"
+    }
+  ]
 }
