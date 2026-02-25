@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { Suspense } from 'react';
-import PortfolioGrid from '../../components/portfolio/PortfolioGrid';
+import PortfolioGrid from '../../components/Portfolio/PortfolioGrid';
 
 export default function PortfolioPage() {
   return (
