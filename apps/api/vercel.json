@@ -2,15 +2,10 @@
   "version": 2,
   "buildCommand": "pnpm install --no-frozen-lockfile && pnpm run build",
   "outputDirectory": "dist",
-  "functions": {
-    "dist/main.js": {
-      "runtime": "@vercel/node"
-    }
-  },
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "dist/main.js"
+      "dest": "/dist/main.js"
     }
   ]
 }
