@@ -24,8 +24,8 @@ async function bootstrap() {
   // Activation de CORS pour le frontend
   app.enableCors({
     origin: nodeEnv === 'production' 
-      ? ['https://aidesmax.fr'] // À adapter en production
-      : ['http://localhost:3000', 'http://localhost:3001'],
+  ? ['https://ingoma-web.vercel.app', 'https://aidesmax.fr']
+  : ['http://localhost:3000', 'http://localhost:3001'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
@@ -51,10 +51,13 @@ async function bootstrap() {
   // Filtre d'exception global pour formater les erreurs
   app.useGlobalFilters(new HttpExceptionFilter());
 
+  if (process.env.VERCEL) {
+  module.exports = app;
+} else {
   await app.listen(port);
-  
   logger.log(`🚀 Application démarrée sur http://localhost:${port}/api`);
   logger.log(`📚 Environnement: ${nodeEnv}`);
+}
 }
 
 bootstrap();
