@@ -22,7 +22,7 @@ export default function PortfolioPage() {
       <div className="pointer-events-none absolute -top-24 -right-24 h-80 w-80 rounded-full blur-3xl bg-[#D4AF37]/10" />
       <div className="pointer-events-none absolute bottom-0 left-1/3 h-96 w-96 rounded-full blur-3xl bg-[#D4AF37]/8" />
 
-      {/* ✅ Screen / Carte premium qui englobe tout */}
+      {/*  Screen / harakenewe Carte premium qui englobe tout */}
       <div className="max-w-6xl mx-auto pt-8">
         <div className="relative rounded-[34px] p-[1px] bg-[linear-gradient(120deg,rgba(212,175,55,0.22),rgba(255,255,255,0.05),rgba(212,175,55,0.14))] shadow-[0_40px_180px_-140px_rgba(212,175,55,0.22)]">
           <div className="relative rounded-[33px] overflow-hidden bg-zinc-950/55 backdrop-blur-2xl border border-white/5">
@@ -52,7 +52,7 @@ export default function PortfolioPage() {
                 </p>
               </div>
 
-              {/* ✅ La grille reste à l’intérieur de la carte */}
+              {/*  La grille reste à l’intérieur de la carte */}
               <div className="mt-10">
                 <Suspense
                   fallback={
