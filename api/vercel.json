@@ -1,19 +1,16 @@
 {
   "version": 2,
+  "buildCommand": "pnpm install --no-frozen-lockfile && pnpm run build",
   "builds": [
     {
-      "src": "src/main.ts",
+      "src": "dist/main.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "src/main.ts"
-    },
-    {
       "src": "/(.*)",
-      "dest": "src/main.ts"
+      "dest": "dist/main.js"
     }
   ]
 }
