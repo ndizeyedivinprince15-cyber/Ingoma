@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "pnpm install --no-frozen-lockfile && pnpm run build",
+  "buildCommand": "pnpm install --no-frozen-lockfile && npx prisma generate && pnpm run build",
   "outputDirectory": "dist",
   "routes": [
     {
