@@ -52,12 +52,10 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter());
 
   if (process.env.VERCEL) {
-  module.exports = app;
+  await app.init();
+  module.exports = app.getHttpAdapter().getInstance();
 } else {
   await app.listen(port);
   logger.log(`🚀 Application démarrée sur http://localhost:${port}/api`);
   logger.log(`📚 Environnement: ${nodeEnv}`);
 }
-}
-
-bootstrap();
