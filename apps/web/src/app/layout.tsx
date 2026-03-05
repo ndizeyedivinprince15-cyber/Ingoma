@@ -12,8 +12,10 @@ export const metadata: Metadata = {
     icon: [{ url: '/media/brand/ingoma-mark.png' }],
     apple: [{ url: '/media/brand/ingoma-mark.png' }],
   },
+  verification: {
+    google: 'xlMEtrxB1JAiywn5omENAFHBFllPe29WbpgPUfednK0',
+  },
 };
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr">
