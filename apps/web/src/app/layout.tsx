@@ -6,7 +6,7 @@ import Footer from '@/components/landing/Footer';
 import PageTransition from '@/components/layout/PageTransition';
 
 export const metadata: Metadata = {
-  title: 'Ingoma Creative Hub',
+  title: 'INGOMA Creative Hub',
   description: 'Architects of Atmosphere',
   icons: {
     icon: [{ url: '/media/brand/ingoma-mark.png' }],
