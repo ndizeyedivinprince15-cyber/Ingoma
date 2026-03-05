@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './modules/prisma/prisma.module';
-import { UsersModule } from './modules/users/users.module';
-import { ProfileModule } from './modules/profile/profile.module';
+import { CreativesModule } from './modules/creatives/creatives.module';
+import { ContactModule } from './modules/contact/contact.module';
 import configuration from './config/configuration';
 
 @Module({
@@ -13,8 +13,8 @@ import configuration from './config/configuration';
       envFilePath: ['.env', '.env.local'],
     }),
     PrismaModule,
-    UsersModule,
-    ProfileModule,
+    CreativesModule,
+    ContactModule,
   ],
 })
 export class AppModule {}
