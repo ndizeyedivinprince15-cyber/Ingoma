@@ -1,8 +1,42 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-export default function HomePage() {
+const API = 'https://ingoma-api-bu2a.vercel.app/api';
+
+type Creative = {
+  id: string;
+  name: string;
+  domain: string;
+  location: string;
+  isVerified: boolean;
+  portfolio: { mediaUrl: string; title: string }[];
+};
+
+async function getLatestCreatives(): Promise<Creative[]> {
+  try {
+    const res = await fetch(`${API}/creatives`, { next: { revalidate: 60 } });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.slice(0, 4);
+  } catch {
+    return [];
+  }
+}
+
+const STATIC_PORTFOLIO = [
+  '/media/portfolio/dinner-event.png',
+  '/media/portfolio/graduation-group.png',
+  '/media/portfolio/two-ladies-portrait.png',
+  '/media/sound/sound-console-live.jpg',
+  '/media/portfolio/photo-16.png',
+  '/media/portfolio/photo-20.png',
+  '/media/portfolio/design/disign-1.png',
+  '/media/portfolio/design/disign-2.png',
+];
+
+export default async function HomePage() {
   const whatsapp = 'https://wa.me/25769034965';
+  const creatives = await getLatestCreatives();
 
   return (
     <main className="bg-[#050505] text-[#F9F1D8]">
@@ -34,7 +68,7 @@ export default function HomePage() {
 
             <div className="mt-10 flex flex-col sm:flex-row gap-3">
               <Link
-                href="/services"
+                href="/creatives"
                 className="px-8 py-3 rounded-full border border-[#D4AF37]/45 text-black bg-gradient-to-r from-[#BFA06D] to-[#D4AF37] font-semibold uppercase tracking-widest text-sm text-center shadow-[0_0_24px_rgba(212,175,55,0.18)] hover:shadow-[0_0_36px_rgba(212,175,55,0.28)] transition"
               >
                 Découvrir nos expertises
@@ -66,14 +100,14 @@ export default function HomePage() {
 
         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { t: 'Cinématographie', d: 'Captation, aftermovie, narration.', href: '/services' },
-            { t: "Photographie d’Art", d: 'Portraits, événements, studio.', href: '/services' },
-            { t: 'Design & Branding', d: 'Identité, supports, direction.', href: '/services' },
-            { t: 'Sonorisation', d: 'Clarté, impact, régie.', href: '/services' },
+            { t: 'Cinématographie', d: 'Captation, aftermovie, narration.', domain: 'vidéographie' },
+            { t: "Photographie d'Art", d: 'Portraits, événements, studio.', domain: 'photographie' },
+            { t: 'Design & Branding', d: 'Identité, supports, direction.', domain: 'design' },
+            { t: 'Sonorisation', d: 'Clarté, impact, régie.', domain: 'sonorisation' },
           ].map((c) => (
             <Link
               key={c.t}
-              href={c.href}
+              href={`/creatives?domain=${c.domain}`}
               className="group rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-6 hover:border-[#D4AF37]/30 transition"
             >
               <div className="text-[#F9F1D8] font-serif text-xl">{c.t}</div>
@@ -84,46 +118,79 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* PORTFOLIO PREVIEW */}
+      {/* TALENTS PREVIEW — dynamique si API, sinon statique */}
       <section className="mx-auto max-w-6xl px-6 pb-16">
         <div className="flex items-end justify-between gap-6">
           <div>
             <h2 className="font-serif text-3xl md:text-4xl text-[#D4AF37]">
-              Nos travaux.
+              {creatives.length > 0 ? 'Nos Talents.' : 'Nos travaux.'}
             </h2>
             <p className="mt-2 text-[#F9F1D8]/55">
-              Une sélection — pensée comme une exposition privée.
+              {creatives.length > 0
+                ? 'Une sélection de créatifs basés à Gitega.'
+                : 'Une sélection — pensée comme une exposition privée.'}
             </p>
           </div>
 
           <Link
-            href="/portfolio"
+            href={creatives.length > 0 ? '/creatives' : '/portfolio'}
             className="hidden sm:inline-flex px-6 py-3 rounded-full border border-white/10 bg-white/5 backdrop-blur-xl text-[#F9F1D8]/80 hover:text-[#F9F1D8] hover:border-[#D4AF37]/25 transition uppercase tracking-widest text-xs font-semibold"
           >
-            Ouvrir la galerie
+            {creatives.length > 0 ? 'Voir tous les talents' : 'Ouvrir la galerie'}
           </Link>
         </div>
 
-        <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-3">
-          {[
-            '/media/portfolio/dinner-event.png',
-            '/media/portfolio/graduation-group.png',
-            '/media/portfolio/two-ladies-portrait.png',
-            '/media/sound/sound-console-live.jpg',
-            '/media/portfolio/photo-16.png',
-            '/media/portfolio/photo-20.png',
-            '/media/portfolio/design/disign-1.png',
-            '/media/portfolio/design/disign-2.png',
-          ].map((src) => (
-            <div
-              key={src}
-              className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 bg-zinc-950/40"
-            >
-              <Image src={src} alt="" fill className="object-cover opacity-90" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
-            </div>
-          ))}
-        </div>
+        {creatives.length > 0 ? (
+          /* Grille dynamique des créatifs */
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {creatives.map((creative) => (
+              <Link
+                key={creative.id}
+                href="/creatives"
+                className="group rounded-2xl border border-white/10 bg-zinc-950/40 overflow-hidden hover:border-[#D4AF37]/30 transition"
+              >
+                <div className="relative aspect-[4/3]">
+                  {creative.portfolio[0] ? (
+                    <img
+                      src={creative.portfolio[0].mediaUrl}
+                      alt={creative.name}
+                      className="w-full h-full object-cover opacity-90 group-hover:scale-[1.03] transition duration-500"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-zinc-900 flex items-center justify-center">
+                      <span className="text-[#D4AF37]/20 text-4xl font-serif">
+                        {creative.name[0]}
+                      </span>
+                    </div>
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                  <div className="absolute bottom-3 left-3 right-3">
+                    <p className="font-serif text-sm text-[#F9F1D8]">{creative.name}</p>
+                    <p className="text-[10px] text-[#D4AF37]/70 uppercase tracking-widest">{creative.domain}</p>
+                  </div>
+                  {creative.isVerified && (
+                    <div className="absolute top-3 right-3 w-5 h-5 rounded-full bg-[#D4AF37]/20 border border-[#D4AF37]/50 flex items-center justify-center">
+                      <span className="text-[#D4AF37] text-[9px]">✓</span>
+                    </div>
+                  )}
+                </div>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          /* Grille statique fallback */
+          <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-3">
+            {STATIC_PORTFOLIO.map((src) => (
+              <div
+                key={src}
+                className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 bg-zinc-950/40"
+              >
+                <Image src={src} alt="" fill className="object-cover opacity-90" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
+              </div>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* CONSULTATION CTA */}
