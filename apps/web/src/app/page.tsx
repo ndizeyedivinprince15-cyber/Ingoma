@@ -56,9 +56,9 @@ export default async function HomePage() {
         <div className="relative mx-auto max-w-6xl px-6 py-20 md:py-28">
           <div className="max-w-3xl">
             <h1 className="font-serif text-4xl md:text-6xl leading-tight">
-              Architects of Atmosphere.
+              Architectes de l'Atmosphère.
               <br />
-              <span className="text-[#D4AF37]">Masters of the Moment.</span>
+              <span className="text-[#D4AF37]">Maîtres de l'Instant.</span>
             </h1>
 
             <p className="mt-5 text-[#F9F1D8]/65 text-base md:text-lg leading-relaxed">
