@@ -31,7 +31,7 @@ export default function Hero() {
       >
         <div className="absolute inset-0">
           <img
-            src="/media/hero.png"
+            src="/media/hero.webp"
             alt="Hero event"
             className="h-full w-full object-cover scale-[1.08] blur-[2px] opacity-60 transition duration-700 group-hover:opacity-70"
           />

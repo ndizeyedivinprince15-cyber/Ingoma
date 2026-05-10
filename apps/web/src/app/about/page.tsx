@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Head from 'next/head';
 import type { Variants } from 'framer-motion';
 import {
   Aperture,
@@ -35,6 +36,10 @@ const staggerContainer: Variants = {
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-[#050505] text-[#F9F1D8]/80 font-sans selection:bg-[#D4AF37]/30 selection:text-white overflow-hidden relative">
+      <Head>
+        <title>À Propos | Ingoma Creative Hub - Agence Multimédia à Gitega</title>
+        <meta name="description" content="Découvrez l'histoire d'Ingoma Creative Hub, votre partenaire multimédia premium à Gitega. Excellence en photographie, vidéo et design au Burundi." />
+      </Head>
       {/* Noise / dust */}
       <div className="fixed inset-0 z-0 pointer-events-none opacity-15">
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
@@ -61,9 +66,9 @@ export default function AboutPage() {
           variants={fadeInUp}
           className="mb-24 md:mb-32"
         >
-          <h1 className="text-5xl md:text-7xl font-serif text-center mb-16 text-[#D4AF37] drop-shadow-sm">
-            Notre voyage. Votre histoire.
-          </h1>
+            <h1 className="text-5xl md:text-7xl font-serif text-center mb-16 text-[#D4AF37] drop-shadow-sm">
+              Sublimer le Réel. Capturer l'Éternité.
+            </h1>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             {/* Image */}
@@ -72,7 +77,7 @@ export default function AboutPage() {
               <div className="relative h-[480px] w-full overflow-hidden rounded-2xl border border-white/10 bg-zinc-950/40">
                 {/*  */}
                 <img
-                  src="/media/hero.png"
+                  src="/media/hero.webp"
                   alt="Prince Multimunenia"
                   className="object-cover w-full h-full grayscale group-hover:grayscale-0 transition-all duration-700"
                 />
@@ -87,15 +92,11 @@ export default function AboutPage() {
               </h2>
 
               <p className="text-lg leading-relaxed text-[#F9F1D8]/65">
-                Fondée sur la conviction que chaque image doit capturer une
-                éternité, notre agence est née de la fusion entre l’art
-                classique et la technologie moderne.
+                Basée au cœur de Gitega, Ingoma Creative Hub est née d'une vision : transformer chaque instant en une œuvre d'art intemporelle. Nous fusionnons l'esthétique classique avec les technologies de pointe pour offrir une expérience multimédia inégalée au Burundi.
               </p>
 
               <p className="text-lg leading-relaxed text-[#F9F1D8]/65">
-                Nous ne nous contentons pas de documenter ; nous sublimons le
-                réel. De la scène aux détails, notre objectif est toujours le
-                même : transmettre une émotion premium, propre, intemporelle.
+                Que ce soit pour des institutions internationales, des ONG ou des événements privés de prestige, nous ne nous contentons pas de documenter ; nous créons des récits visuels qui marquent les esprits. Notre signature "Dark & Gold" incarne l'élégance et le professionnalisme que nous apportons à chaque projet.
               </p>
 
               <div className="pt-3">

@@ -103,7 +103,7 @@ export default function ServicesPage() {
       {/* Background */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/media/hero.png"
+          src="/media/hero.webp"
           alt="Elegant event background"
           fill
           className="object-cover brightness-50 blur-2xl"

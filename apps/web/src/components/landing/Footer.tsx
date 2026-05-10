@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-start gap-10">
         <div className="max-w-sm">
           <Image
-            src="/media/brand/ingoma-logo.png"
+            src="/media/brand/ingoma-logo.webp"
             alt="Ingoma Creative Hub"
             width={190}
             height={54}

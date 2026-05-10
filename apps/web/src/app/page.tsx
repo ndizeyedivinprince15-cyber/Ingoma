@@ -44,7 +44,7 @@ export default async function HomePage() {
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="/media/hero.png"
+            src="/media/hero.webp"
             alt="Ingoma Creative Hub"
             fill
             priority

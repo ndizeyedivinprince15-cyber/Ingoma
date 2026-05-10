@@ -8,7 +8,7 @@ export default function PortfolioPage() {
       {/* Background (flou) */}
       <div className="absolute inset-0 -z-10">
         <Image
-          src="/media/hero.png"
+          src="/media/hero.webp"
           alt="Background"
           fill
           className="object-cover brightness-50 blur-2xl"

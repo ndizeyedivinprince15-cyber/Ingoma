@@ -33,7 +33,7 @@ export default function Header() {
             {/* glow */}
             <span className="absolute -inset-4 rounded-3xl bg-[#D4AF37]/10 blur-2xl" />
             <Image
-              src="/media/brand/ingoma-logo.png"
+              src="/media/brand/ingoma-logo.webp"
               alt="Ingoma Creative Hub"
               width={260}
               height={80}
