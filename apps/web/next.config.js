@@ -6,7 +6,18 @@ const nextConfig = {
   
   // Redirections
   async redirects() {
-    return [];
+    return [
+      {
+        source: '/nos-travaux',
+        destination: '/portfolio',
+        permanent: true,
+      },
+      {
+        source: '/a-propos',
+        destination: '/about',
+        permanent: true,
+      },
+    ];
   },
   
   // Headers de sécurité

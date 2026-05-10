@@ -23,10 +23,16 @@ export default function Footer() {
             Follow
           </h4>
           <div className="flex gap-4">
-            {[Instagram, Linkedin, Twitter].map((Icon, idx) => (
+            {[
+              { Icon: Instagram, href: 'https://www.instagram.com/ingoma_creative_hub/' },
+              { Icon: Linkedin, href: 'https://www.linkedin.com/company/ingoma-creative-hub/' },
+              { Icon: Twitter, href: 'https://twitter.com/ingoma_creative' },
+            ].map(({ Icon, href }, idx) => (
               <a
                 key={idx}
-                href="#"
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-[#F9F1D8]/70 hover:border-[#D4AF37]/40 hover:text-[#D4AF37] transition"
               >
                 <Icon size={18} />
