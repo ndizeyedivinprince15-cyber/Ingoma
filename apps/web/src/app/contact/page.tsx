@@ -113,7 +113,7 @@ export default function ContactPage() {
                     Email
                   </p>
                   <p className="text-lg text-[#F9F1D8] font-medium">
-                    ndizeyedivinprince15@gmail.com
+                    hello@ingoma-creative.com
                   </p>
                 </div>
               </div>
@@ -178,7 +178,7 @@ export default function ContactPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     type="email"
-                    placeholder="ndizeyedivinprince15@gmail.com"
+                    placeholder="hello@ingoma-creative.com"
                     className="w-full bg-black/30 border border-white/10 rounded-xl px-5 py-4 focus:outline-none focus:border-[#D4AF37]/60 focus:ring-1 focus:ring-[#D4AF37]/15 transition-all placeholder:text-[#F9F1D8]/20"
                   />
                 </div>
